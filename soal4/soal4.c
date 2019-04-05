@@ -15,9 +15,9 @@ int main()
     char *simpan1="ps -aux | head -n10 > ~/Documents/FolderProses1/SimpanProses1.txt";
     char *simpan2="ps -aux | head -n10 > ~/Documents/FolderProses2/SimpanProses2.txt";
     char *zip1="zip -rm ~/Documents/FolderProses1/KompresProses1.zip ~/Documents/FolderProses1/SimpanProses1.txt";
-    char *zip2="zip -rm ~/Documents/FolderProses1/KompresProses2.zip ~/Documents/FolderProses2/SimpanProses2.txt";
+    char *zip2="zip -rm ~/Documents/FolderProses2/KompresProses2.zip ~/Documents/FolderProses2/SimpanProses2.txt";
     char *unzip1="unzip ~/Documents/FolderProses1/KompresProses1.zip";
-    char *unzip2="unzip ~/Documents/FolderProses1/KompresProses2.zip";
+    char *unzip2="unzip ~/Documents/FolderProses2/KompresProses2.zip";
     
     int  iret1, iret2, iret3, iret4, iret5, iret6;
    while(1){
@@ -78,7 +78,7 @@ int main()
 }
 
 void *unzziping( void *ptr )
-{   sleep(10);
+{   sleep(15);
     char *unzipnya;
     unzipnya= (char *) ptr;
     system(unzipnya);
@@ -92,7 +92,7 @@ void *listing( void *ptr )
 }
 
 void *zipping( void *ptr )
-{   sleep(5);
+{ 
     char *zippnya;
     zippnya = (char *) ptr;
     system(zippnya); 
