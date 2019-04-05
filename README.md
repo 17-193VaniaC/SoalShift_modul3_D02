@@ -35,10 +35,10 @@ for (i = 1; i < argc; i++)
 	    pthread_join(tid, NULL);
 	} 
 ```
-   
    + Jalankan fungsi dalam thread
-    ```c
-	void *faktorial(void* nilai)
+    
+```c
+void *faktorial(void* nilai)
 	{   
     	    int fak_loop = (int) (intptr_t)nilai;
             int hasil = (int) (intptr_t)nilai;
@@ -53,7 +53,7 @@ for (i = 1; i < argc; i++)
 	}
 ```
        
-2. Soal2
+2. #### Soal2
 
 Untuk Server Penjual:
 
@@ -343,7 +343,7 @@ Perbedaan client penjual dan pembeli terletak di sini
 }
  ``` 
 3. Soal 3
-4. Soal 4
+4. #### Soal 4
 
 	Membuat sebuah program C dimana dapat menyimpan list proses yang sedang berjalan (ps -aux) maksimal 10 list proses. Dimana awalnya list proses disimpan dalam di 2 file ekstensi .txt yaitu  SimpanProses1.txt di direktori /home/Document/FolderProses1 dan SimpanProses2.txt di direktori /home/Document/FolderProses2 , setelah itu masing2 file di  kompres zip dengan format nama file KompresProses1.zip dan KompresProses2.zip dan file SimpanProses1.txt dan SimpanProses2.txt akan otomatis terhapus, setelah itu program akan menunggu selama 15 detik lalu program akan mengekstrak kembali file KompresProses1.zip dan KompresProses2.zip 
 Dengan Syarat : 
