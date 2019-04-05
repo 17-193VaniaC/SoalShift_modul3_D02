@@ -67,14 +67,11 @@ void *listing( void *ptr )
 
 void *zipping( void *ptr )
 {
-    sleep(5);
     char *zippnya;
     zippnya = (char *) ptr;
     system(zippnya); 
     printf("Menunggu 15 detik lagi untuk mengekstrak kembali\n");
+    sleep(15);
 }
-
-
-
 
 
