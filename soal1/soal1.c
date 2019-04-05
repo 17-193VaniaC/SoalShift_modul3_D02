@@ -50,7 +50,6 @@ int main(int argc, char *array[])
 	{
 
 	    cr = pthread_create(&(tid), NULL, &faktorial, (void *) (intptr_t) arr[i]);
-	    //printf("faqs2\n");
 	    if(cr!=0) printf("\nPembuatan thread error\n");
 	    pthread_join(tid, NULL);
 	}
