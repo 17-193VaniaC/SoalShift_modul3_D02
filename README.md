@@ -5,23 +5,23 @@ Pembahasan
 Untuk Server Penjual:
 
 
-Variabel yang digunakan:
-  //thread
+Variabel yang digunakan adalah sebagai berikut
+ ```
+ //thread
 	pthread_t thread1, thread2;
 	int iret1, iret2;
 	//shared mem
    key_t key = 1234;
    int *value;
-
-	agar bisa melakukan shared memory
-  
-  ```  
+```
+agar bisa melakukan shared memory
+```
         int shmid = shmget(key, sizeof(int), IPC_CREAT | 0666);
         value = shmat(shmid, NULL, 0);
-  ``` 
+   
 	//stok awal ada 10
         *value = 10;
-        
+  ```      
   membuat thread ke-1 untuk nerima pesan dari client
   ```
 	iret1 = pthread_create( &thread1, NULL, get_message, (void *) value);
@@ -204,5 +204,88 @@ Membuat pointer yang menunjuk ke 'value ' yang merupakan variabel dalam shared m
 
 ```
 
-Untuk Client Penjual:
+Untuk Client Pembeli:
 
+```
+int main(int argc, char const *argv[]) {
+    struct sockaddr_in address;
+    int sock = 0, valread, sock1;
+    struct sockaddr_in serv_addr, serv_addr1;
+    char buffer[1024] = {0};
+    char permintaan[100];
+    char *beli="beli";
+    if ((sock = socket(AF_INET, SOCK_STREAM, 0)) < 0) {
+        printf("\n Socket creation error \n");
+        return -1;
+    }
+
+    memset(&serv_addr, '0', sizeof(serv_addr));
+   
+    serv_addr.sin_family = AF_INET;
+    serv_addr.sin_addr.s_addr = INADDR_ANY;
+    serv_addr.sin_port = htons(PORT);
+
+    if(inet_pton(AF_INET, "127.0.0.1", &serv_addr.sin_addr)<=0) {
+        printf("\nInvalid address/ Address not supported \n");
+        return -1;
+    }
+
+    if (connect(sock, (struct sockaddr *)&serv_addr, sizeof(serv_addr)) < 0) {		//connect ke server
+        printf("\nConnection Failed \n");
+        return -1;
+    }
+```    
+  
+ Client dapat terus mengirimkan pesan ke server
+ ```
+    while(1){
+
+	    fgets(permintaan, 100, stdin);				//mengambil string dari client
+	 
+	    if(strcmp(permintaan,beli)){
+            	send(sock , permintaan , strlen(permintaan) , 0 );	//mengirimkan pesan ke server
+	    	valread = read( sock , buffer, 1024);			//menerima pesan dari server
+	    	printf("%s\n",buffer );					//menampilkan pesan dari server
+	    }
+ ```
+
+Untuk Client Pembeli:
+Hampir sama dengan client penjual
+```
+int main(int argc, char const *argv[]) {
+    struct sockaddr_in address;
+    int sock = 0, valread;
+    struct sockaddr_in serv_addr;
+    char buffer[1024] = {0};
+    char permintaan[100];
+    char *tambah="tambah";
+    if ((sock = socket(AF_INET, SOCK_STREAM, 0)) < 0) {
+        printf("\n Socket creation error \n");
+        return -1;
+    }
+
+    memset(&serv_addr, '0', sizeof(serv_addr));
+ 
+    serv_addr.sin_family = AF_INET;
+    serv_addr.sin_addr.s_addr = INADDR_ANY;
+    serv_addr.sin_port = htons(PORT);
+
+    if(inet_pton(AF_INET, "127.0.0.1", &serv_addr.sin_addr)<=0) {
+        printf("\nInvalid address/ Address not supported \n");
+        return -1;
+    }
+
+    if (connect(sock, (struct sockaddr *)&serv_addr, sizeof(serv_addr)) < 0) {
+        printf("\nConnection Failed \n");
+        return -1;
+    }
+```
+Perbedaan client penjual dan pembeli terletak di sini
+```
+    while(1){
+	    fgets(permintaan, 100, stdin);				//client memasukan permintaan
+	    if(strcmp(permintaan,tambah)){				//jika yang diminta adalah "tambah"
+            	send(sock , permintaan , strlen(permintaan) , 0 );	//client mengirimkan permintaan 
+	    }
+}
+ ``` 
