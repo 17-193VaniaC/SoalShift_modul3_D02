@@ -3,14 +3,14 @@ Pembahasan
    Langkah pengerjaan:
    + Masukkan input ke dalam sebuah array, lalu urutkan mulai dari yang terkecil hingga terbesar.
 ```c
-for (i = 1; i < argc; i++)
- 	   {
-		int mbuh = atoi(array[i]);
-		arr[i] = mbuh;
- 	   }
+	for (i = 1; i < argc; i++)
+ 	{
+	    int mbuh = atoi(array[i]);
+	    arr[i] = mbuh;
+ 	}
 
 	 for (i=1; i<argc; ++i)
-    	   {
+    	 {
       	     for (j= i+1; j<argc; ++j)
       	     {
              	  if (arr[i] > arr[j])
@@ -19,7 +19,7 @@ for (i = 1; i < argc; i++)
              	      arr[i] = arr[j];
              	      arr[j] = a;
              	  }
-          	 }
+              }
      	  }
 ```
 
@@ -38,7 +38,7 @@ for (i = 1; i < argc; i++)
    + Jalankan fungsi dalam thread
     
 ```c
-void *faktorial(void* nilai)
+	void *faktorial(void* nilai)
 	{   
     	    int fak_loop = (int) (intptr_t)nilai;
             int hasil = (int) (intptr_t)nilai;
