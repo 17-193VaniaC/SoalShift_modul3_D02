@@ -1,6 +1,6 @@
 Pembahasan 
-1. Soal1
-Langkah pengerjaan:
+1. ###### Soal1
+   Langkah pengerjaan:
    + Masukkan input ke dalam sebuah array, lalu urutkan mulai dari yang terkecil hingga terbesar.
    ```c
 	for (i = 1; i < argc; i++)
