@@ -2,8 +2,8 @@ Pembahasan
 1. #### Soal1
    Langkah pengerjaan:
    + Masukkan input ke dalam sebuah array, lalu urutkan mulai dari yang terkecil hingga terbesar.
-   ```c
-	for (i = 1; i < argc; i++)
+```c
+for (i = 1; i < argc; i++)
  	   {
 		int mbuh = atoi(array[i]);
 		arr[i] = mbuh;
@@ -20,10 +20,10 @@ Pembahasan
              	      arr[j] = a;
              	  }
           	 }
-     	  } 
+     	  }
 ```
-   
-   * Buat thread sebanyak input.
+
+   + Buat thread sebanyak input.
    ```c
 	int cr;
   	pthread_t tid;
