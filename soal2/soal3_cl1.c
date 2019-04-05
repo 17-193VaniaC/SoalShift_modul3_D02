@@ -9,11 +9,11 @@
   
 int main(int argc, char const *argv[]) {
     struct sockaddr_in address;
-    int sock = 0, valread, sock1;
-    struct sockaddr_in serv_addr, serv_addr1;
+    int sock = 0, valread;
+    struct sockaddr_in serv_addr;
     char buffer[1024] = {0};
     char permintaan[100];
-    char *beli="tambah";
+    char *tambah="tambah";
     if ((sock = socket(AF_INET, SOCK_STREAM, 0)) < 0) {
         printf("\n Socket creation error \n");
         return -1;
@@ -22,7 +22,7 @@ int main(int argc, char const *argv[]) {
     memset(&serv_addr, '0', sizeof(serv_addr));
  
     serv_addr.sin_family = AF_INET;
-    serv_addr.sin_addr.s_addr = INADDR_ANY;/
+    serv_addr.sin_addr.s_addr = INADDR_ANY;
     serv_addr.sin_port = htons(PORT);
 
     if(inet_pton(AF_INET, "127.0.0.1", &serv_addr.sin_addr)<=0) {
@@ -37,7 +37,7 @@ int main(int argc, char const *argv[]) {
 
     while(1){
 	    fgets(permintaan, 100, stdin);
-	    if(strcmp(permintaan,beli)){
+	    if(strcmp(permintaan,tambah)){
             	send(sock , permintaan , strlen(permintaan) , 0 );
 	    }
     }
