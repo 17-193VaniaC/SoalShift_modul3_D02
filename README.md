@@ -316,10 +316,10 @@ String untuk system pada thread
  ```
     char *simpan1="ps -aux | head -n10 > ~/Documents/FolderProses1/SimpanProses1.txt";
     char *simpan2="ps -aux | head -n10 > ~/Documents/FolderProses2/SimpanProses2.txt";
-    char *zip1="zip -rm ~/Documents/FolderProses1/KompresProses1.zip ~/Documents/FolderProses1/SimpanProses1.txt";
-    char *zip2="zip -rm ~/Documents/FolderProses1/KompresProses2.zip ~/Documents/FolderProses2/SimpanProses2.txt";
-    char *unzip1="unzip ~/Documents/FolderProses1/KompresProses1.zip";
-    char *unzip2="unzip ~/Documents/FolderProses1/KompresProses2.zip";
+    char *zip1="zip -j -m ~/Documents/FolderProses1/KompresProses1.zip ~/Documents/FolderProses1/SimpanProses1.txt";
+    char *zip2="zip -j -m ~/Documents/FolderProses2/KompresProses2.zip ~/Documents/FolderProses2/SimpanProses2.txt";
+    char *unzip1="unzip ~/Documents/FolderProses1/KompresProses1.zip -d ~/Documents/FolderProses1/";
+    char *unzip2="unzip ~/Documents/FolderProses2/KompresProses2.zip -d ~/Documents/FolderProses2/";
 ``` 
 Dalam program ini dibuat 6 thread
 Thread 1 dan 2 membuat file SimpanProses1.txt dan SimpanProses2.txt menggunakan fungsi listing
