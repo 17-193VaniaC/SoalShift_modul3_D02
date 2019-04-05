@@ -7,7 +7,7 @@
 
 void *listing( void *ptr );
 void *zipping( void *ptr );
-void *unzipping( void *ptr);
+void *mengunzip( void *ptr);
 
 int main()
 {
@@ -55,14 +55,14 @@ int main()
     pthread_join( thread3, NULL);
     pthread_join( thread4, NULL);
 
-    iret5 = pthread_create( &thread5, NULL, unzipping, (void*) unzip1); //membuat thr$
+    iret5 = pthread_create( &thread5, NULL, mengunzip, (void*) unzip1); //membuat thr$
     if(iret5) //jika eror
     {
         fprintf(stderr,"Error - pthread_create() return code: %d\n",iret5);
         exit(EXIT_FAILURE);
     }
 
-    iret6 = pthread_create( &thread6, NULL, unzipping, (void*) unzip2);//membuat threa$
+    iret6 = pthread_create( &thread6, NULL, mengunzip, (void*) unzip2);//membuat threa$
     if(iret6)//jika gagal
     {
         fprintf(stderr,"Error - pthread_create() return code: %d\n",iret6);
@@ -77,7 +77,7 @@ int main()
 
 }
 
-void *unzziping( void *ptr )
+void *mengunzip( void *ptr )
 {   sleep(15);
     char *unzipnya;
     unzipnya= (char *) ptr;
