@@ -7,19 +7,16 @@
 
 void *listing( void *ptr );
 void *zipping( void *ptr );
-void *hapus( void *ptr );
 
 int main()
 {
     pthread_t thread1, thread2, thread3, thread4, thread5, thread6;
     char *simpan1="ps -aux | head -n10 > ~/Documents/FolderProses1/SimpanProses1.txt";
     char *simpan2="ps -aux | head -n10 > ~/Documents/FolderProses2/SimpanProses2.txt";
-    char *zip1="zip -r ~/Documents/FolderProses1/KompresProses1.zip ~/Documents/FolderProses1/SimpanProses1.txt";
-    char *zip2="zip -r ~/Documents/FolderProses1/KompresProses2.zip ~/Documents/FolderProses2/SimpanProses2.txt";
-    char *hapus1="rm ~/Documents/FolderProses1/SimpanProses1.txt";
-    char *hapus2="rm ~/Documents/FolderProses2/SimpanProses2.txt";
+    char *zip1="zip -rm ~/Documents/FolderProses1/KompresProses1.zip ~/Documents/FolderProses1/SimpanProses1.txt";
+    char *zip2="zip -rm ~/Documents/FolderProses1/KompresProses2.zip ~/Documents/FolderProses2/SimpanProses2.txt";
 
-    int  iret1, iret2, iret3, iret4, iret5, iret6;
+    int  iret1, iret2, iret3, iret4;
    while(1){
     iret1 = pthread_create( &thread1, NULL, listing, (void*) simpan1); //membuat thr$
     if(iret1) //jika eror
@@ -55,22 +52,6 @@ int main()
     pthread_join( thread3, NULL);
     pthread_join( thread4, NULL);
 
-    iret5 = pthread_create( &thread5, NULL, hapus, (void*) hapus1); //membuat thr$
-    if(iret5) //jika eror
-    {
-        fprintf(stderr,"Error - pthread_create() return code: %d\n",iret5);
-        exit(EXIT_FAILURE);
-    }
-
-    iret6 = pthread_create( &thread6, NULL, hapus, (void*) hapus2);//membuat threa$
-    if(iret6)//jika gagal
-    {
-        fprintf(stderr,"Error - pthread_create() return code: %d\n",iret6);
-        exit(EXIT_FAILURE);
-    }
-
-    pthread_join( thread5, NULL);
-    pthread_join( thread6, NULL);
 }
 
     exit(EXIT_SUCCESS);
@@ -93,13 +74,6 @@ void *zipping( void *ptr )
     printf("Menunggu 15 detik lagi untuk mengekstrak kembali\n");
 }
 
-void *hapus( void *ptr )
-{
-    sleep(10);
-    char *hapusin;
-    hapusin = (char *) ptr;
-    system(hapusin); 
-}
 
 
 
