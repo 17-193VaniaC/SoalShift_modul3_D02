@@ -14,10 +14,11 @@ int main()
     pthread_t thread1, thread2, thread3, thread4, thread5, thread6;
     char *simpan1="ps -aux | head -n10 > ~/Documents/FolderProses1/SimpanProses1.txt";
     char *simpan2="ps -aux | head -n10 > ~/Documents/FolderProses2/SimpanProses2.txt";
-    char *zip1="zip -rm ~/Documents/FolderProses1/KompresProses1.zip ~/Documents/FolderProses1/SimpanProses1.txt";
-    char *zip2="zip -rm ~/Documents/FolderProses2/KompresProses2.zip ~/Documents/FolderProses2/SimpanProses2.txt";
-    char *unzip1="unzip ~/Documents/FolderProses1/KompresProses1.zip";
-    char *unzip2="unzip ~/Documents/FolderProses2/KompresProses2.zip";
+    char *zip1="zip -j -m ~/Documents/FolderProses1/KompresProses1.zip ~/Documents/FolderProses1/SimpanProses1.txt";
+    char *zip2="zip -j -m ~/Documents/FolderProses2/KompresProses2.zip ~/Documents/FolderProses2/SimpanProses2.txt";
+    char *unzip1="unzip ~/Documents/FolderProses1/KompresProses1.zip -d ~/Documents/FolderProses1/";
+    char *unzip2="unzip ~/Documents/FolderProses2/KompresProses2.zip -d ~/Documents/FolderProses2/";
+
     
     int  iret1, iret2, iret3, iret4, iret5, iret6;
   
