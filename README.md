@@ -321,11 +321,11 @@ String untuk system pada thread
     char *unzip1="unzip ~/Documents/FolderProses1/KompresProses1.zip";
     char *unzip2="unzip ~/Documents/FolderProses1/KompresProses2.zip";
 ``` 
-Selama program berjalan, maka akan dibuat 4 thread
+Dalam program ini dibuat 6 thread
 Thread 1 dan 2 membuat file SimpanProses1.txt dan SimpanProses2.txt menggunakan fungsi listing
 ```
     int  iret1, iret2, iret3, iret4, iret5, iret6;
-    while(1){
+  
     iret1 = pthread_create( &thread1, NULL, listing, (void*) simpan1); //membuat thr$
     if(iret1) //jika eror
     {
