@@ -116,9 +116,9 @@ agar bisa melakukan shared memory
 		fprintf(stderr,"Error - pthread_create() return code: %d\n",iret1);
         	exit(EXIT_FAILURE);
         }
-  ```
-  
-	membuat thread ke-2 untuk menampilkan stock saat ini
+``` 
+
+membuat thread ke-2 untuk menampilkan stock saat ini
   ```
         iret2 = pthread_create( &thread2, NULL, print_stock, (void *) value);
         if(iret2)
