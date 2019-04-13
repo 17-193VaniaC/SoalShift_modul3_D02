@@ -376,7 +376,7 @@ Perbedaan client penjual dan pembeli terletak di sini
 }
  ``` 
 3. Soal 3
-4. #### Soal 4
+4. ### Soal 4
 
 	Membuat sebuah program C dimana dapat menyimpan list proses yang sedang berjalan (ps -aux) maksimal 10 list proses. Dimana awalnya list proses disimpan dalam di 2 file ekstensi .txt yaitu  SimpanProses1.txt di direktori /home/Document/FolderProses1 dan SimpanProses2.txt di direktori /home/Document/FolderProses2 , setelah itu masing2 file di  kompres zip dengan format nama file KompresProses1.zip dan KompresProses2.zip dan file SimpanProses1.txt dan SimpanProses2.txt akan otomatis terhapus, setelah itu program akan menunggu selama 15 detik lalu program akan mengekstrak kembali file KompresProses1.zip dan KompresProses2.zip 
 Dengan Syarat : 
@@ -387,113 +387,117 @@ Dengan Syarat :
 ➔	Menggunakan Multithreading
 
 Berikut adalah fungsi yang digunakan untuk membuat thread:
-
-void *listing( void *ptr ); = untuk membuat file berisi list dari proses (SimpanProses1.txt atau SimpanProses2.txt)
-void *zipping( void *ptr ); = untuk men-zip file SimpanProses1.txt dan SimpanProses2.txt
-void *mengunzip( void *ptr ); untuk mengekstrak file KompresProses1.zip dan KompresProses2.zip
-Penjelasan dari isi fungsi main:
-
-membuat 4 thread
-``` c
-    pthread_t thread1, thread2, thread3, thread4;
-``` 
-
-String untuk system pada thread
- ``` c
-    char *simpan1="ps -aux | head -n10 > ~/Documents/FolderProses1/SimpanProses1.txt";
-    char *simpan2="ps -aux | head -n10 > ~/Documents/FolderProses2/SimpanProses2.txt";
-    char *zip1="zip -j -m ~/Documents/FolderProses1/KompresProses1.zip ~/Documents/FolderProses1/SimpanProses1.txt";
-    char *zip2="zip -j -m ~/Documents/FolderProses2/KompresProses2.zip ~/Documents/FolderProses2/SimpanProses2.txt";
-    char *unzip1="unzip ~/Documents/FolderProses1/KompresProses1.zip -d ~/Documents/FolderProses1/";
-    char *unzip2="unzip ~/Documents/FolderProses2/KompresProses2.zip -d ~/Documents/FolderProses2/";
-``` 
-Dalam program ini dibuat 6 thread
-Thread 1 dan 2 membuat file SimpanProses1.txt dan SimpanProses2.txt menggunakan fungsi listing
-``` c
-    int  iret1, iret2, iret3, iret4, iret5, iret6;
-  
-    iret1 = pthread_create( &thread1, NULL, listing, (void*) simpan1); //membuat thr$
-    if(iret1) //jika eror
-    {
-        fprintf(stderr,"Error - pthread_create() return code: %d\n",iret1);
-        exit(EXIT_FAILURE);
-    }
-
-    iret2 = pthread_create( &thread2, NULL, listing, (void*) simpan2);//membuat thread k$
-    if(iret2)//jika gagal
-    {
-        fprintf(stderr,"Error - pthread_create() return code: %d\n",iret2);
-        exit(EXIT_FAILURE);
-    }
-
-    pthread_join( thread1, NULL);
-    pthread_join( thread2, NULL); 
+void *listing( void *ptr ); = untuk membuat file berisi list dari proses (SimpanProses1.txt atau SimpanProses2.txt) 
+void *zipping( void *ptr ); = untuk men-zip file SimpanProses1.txt dan SimpanProses2.txt 
+void *mengunzip( void *ptr ); untuk mengekstrak file KompresProses1.zip dan KompresProses2.zip Penjelasan dari isi fungsi main:
+Selain itu, dibuat juga variabel status sebagai mutual exclusion.
 ```
-Thread 3 dan 4 menzip file SimpanProses1.txt dan SimpanProses2.txt menggunakan fungsi zipping
-``` c
-    iret3 = pthread_create( &thread3, NULL, zipping, (void*) zip1); //membuat thr$
-    if(iret3) //jika eror
-    {
-        fprintf(stderr,"Error - pthread_create() return code: %d\n",iret3);
-        exit(EXIT_FAILURE);
-    }
+void *listing( void *ptr );
+void *zipping(void * ptr );
+void *mengunzip( void *ptr);
+int status;
+```
+Dalam proses ini dibuat 6 thread dengan 3 fungsi yang berbeda
+```
+pthread_t thread1, thread2, thread3, thread4, thread5, thread6;
 
-    iret4 = pthread_create( &thread4, NULL, zipping, (void*) zip2);//membuat threa$
-    if(iret4)//jika gagal
-    {
-        fprintf(stderr,"Error - pthread_create() return code: %d\n",iret4);
-        exit(EXIT_FAILURE);
-    }
+char *simpan1="ps -aux | head -n10 > ~/Documents/FolderProses1/SimpanProses1.txt";
+char *simpan2="ps -aux | head -n10 > ~/Documents/FolderProses2/SimpanProses2.txt";
+char *zip1="zip -j -m ~/Documents/FolderProses1/KompresProses1.zip ~/Documents/FolderProses1/SimpanProses1.txt";
+char *zip2="zip -j -m ~/Documents/FolderProses2/KompresProses2.zip ~/Documents/FolderProses2/SimpanProses2.txt";
+char *unzip1="unzip ~/Documents/FolderProses1/KompresProses1.zip -d ~/Documents/FolderProses1/";
+char *unzip2="unzip ~/Documents/FolderProses2/KompresProses2.zip -d ~/Documents/FolderProses2/";
+status=1;
 
-    pthread_join( thread3, NULL);
-    pthread_join( thread4, NULL);
+int iret1, iret2, iret3, iret4, iret5, iret6;
 
+iret1 = pthread_create( &thread1, NULL, listing, (void*) simpan1); //membuat thr$
+
+if(iret1) //jika eror{
+fprintf(stderr,"Error - pthread_create() return code: %d\n",iret1);
+exit(EXIT_FAILURE);}
+
+iret2 = pthread_create( &thread2, NULL, listing, (void*) simpan2);//membuat thread k$
+if(iret2)//jika gagal
+{
+fprintf(stderr,"Error - pthread_create() return code: %d\n",iret2);
+exit(EXIT_FAILURE);
+}
+
+iret3 = pthread_create( &thread3, NULL, zipping, (void*) zip1); //membuat thr$
+
+if(iret3) //jika eror
+{
+fprintf(stderr,"Error - pthread_create() return code: %d\n",iret3);
+exit(EXIT_FAILURE);
+}
+
+iret4 = pthread_create( &thread4, NULL, zipping, (void*) zip2);//membuat threa$
+if(iret4)//jika gagal
+{
+fprintf(stderr,"Error - pthread_create() return code: %d\n",iret4);
+exit(EXIT_FAILURE);
+}
+
+iret5 = pthread_create( &thread5, NULL, mengunzip, (void*) unzip1); //membuat thr$
+if(iret5) //jika eror
+{
+fprintf(stderr,"Error - pthread_create() return code: %d\n",iret5);
+exit(EXIT_FAILURE);
+}
+
+iret6 = pthread_create( &thread6, NULL, mengunzip, (void*) unzip2);//membuat threa$
+if(iret6)//jika gagal
+{
+fprintf(stderr,"Error - pthread_create() return code: %d\n",iret6);
+exit(EXIT_FAILURE);
 }
 ```
-Thread 5 dan 6 mengunzip file KompresProses1.txt dan KompresProses2.txt menggunakan fungsi unzipping
-``` c
-iret5 = pthread_create( &thread5, NULL, mengunzip, (void*) unzip1); //membuat thr$
-    if(iret5) //jika eror
-    {
-        fprintf(stderr,"Error - pthread_create() return code: %d\n",iret5);
-        exit(EXIT_FAILURE);
-    }
-
-    iret6 = pthread_create( &thread6, NULL, mengunzip, (void*) unzip2);//membuat threa$
-    if(iret6)//jika gagal
-    {
-        fprintf(stderr,"Error - pthread_create() return code: %d\n",iret6);
-        exit(EXIT_FAILURE);
-    }
-
+Kemudian thread dijoinkan.
+```
+pthread_join( thread1, NULL);
+pthread_join( thread2, NULL);
+pthread_join( thread3, NULL);
+pthread_join( thread4, NULL);
 pthread_join( thread5, NULL);
 pthread_join( thread6, NULL);
 ```
-Fungsi listing
-``` c
+
+Pada  fungsi uzipping, agar thread menunggu untuk giliran menguzip file, maka fungsi ini menunggu status bernilai 3 (artinya KompresProses.zip sudah dibuat). Selain itu dalam fungsi ini menunggu 15 detik menggunkaan fungsi sleep.
+```
+void *mengunzip( void *ptr )
+
+{ sleep(15);
+char *unzipnya;
+unzipnya= (char *) ptr;
+while(status<3){
+system(unzipnya);
+printf(“---%lu---\n”,pthread_self());
+}
+}
+```
+Pada Fungsi listing ini, tidak bergantung pada status. Namun, dalam fungsi ini status diubah menjadi 2 ketika file SimpanProses.txt sudah dibuat.
+```
 void *listing( void *ptr )
 {
-    char *message;
-    message = (char *) ptr;
-    system(message);
+char *message;
+message = (char *) ptr;
+system(message);
+printf("---%lu---\n",pthread_self());
+status=2;
+}
 }
 ```
-Fungsi zipping: setelah memanggil fungsi sys
-``` c
+Pada  fungsi zipping, agar thread menunggu untuk giliran men-zip file, maka fungsi ini menunggu status bernilai 2 (artinya SimpanProses.txt sudah dibuat)
+```
 void *zipping( void *ptr )
-{
-    char *zippnya;
-    zippnya = (char *) ptr;
-    system(zippnya); 
-    printf("Menunggu 15 detik lagi untuk mengekstrak kembali\n");
-}
-```
-Fungsi mengunzip: thread yang menggunakan fungsi ini menunggu 15 setik sebelum mengekstrak kembali
-``` c
-void *mengunzip( void *ptr )
-{   sleep(15);
-    char *unzipnya;
-    unzipnya= (char *) ptr;
-    system(unzipnya);
+{ 
+char *zippnya;
+printf("---%lu---\n",pthread_self());
+while(status<2){}
+zippnya = (char *) ptr;
+system(zippnya);
+printf("Menunggu 15 detik lagi untuk mengekstrak kembali\n");
+status=3;
 }
 ```
