@@ -210,12 +210,12 @@ Untuk Server Pembeli:
         key_t key = 1234;
         int *value;
 Agar bisa melakukan shared memory:
-```
+``` c
         int shmid = shmget(key, sizeof(int), IPC_CREAT | 0666);
         value = shmat(shmid, NULL, 0);
 ```
 Membuat Thread untuk menerima pesan dari client yang terhubung
-```
+``` c
 	iret1 = pthread_create( &thread1, NULL, get_message, (void *) value);
 	if(iret1)
         {
@@ -229,7 +229,7 @@ Membuat Thread untuk menerima pesan dari client yang terhubung
 ```
 
 Membuat fungsi get_message yang digunakan untuk menerima pesan dari client
-```
+``` c
 void *get_message( void *ptr){
 
         char *beli="beli";
@@ -269,7 +269,7 @@ void *get_message( void *ptr){
 ```
 
 Membuat pointer yang menunjuk ke 'value ' yang merupakan variabel dalam shared memory
-```
+``` c
 	int *tambahin;
 	tambahin = (int *) ptr;
 	char *bisa="transaksi berhasil\n";
@@ -292,7 +292,7 @@ Membuat pointer yang menunjuk ke 'value ' yang merupakan variabel dalam shared m
 
 Untuk Client Pembeli:
 
-```
+``` c
 int main(int argc, char const *argv[]) {
     struct sockaddr_in address;
     int sock = 0, valread, sock1;
@@ -323,7 +323,7 @@ int main(int argc, char const *argv[]) {
 ```    
   
  Client dapat terus mengirimkan pesan ke server
- ```
+ ``` c
     while(1){
 
 	    fgets(permintaan, 100, stdin);				//mengambil string dari client
@@ -337,7 +337,7 @@ int main(int argc, char const *argv[]) {
 
 Untuk Client Pembeli:
 Hampir sama dengan client penjual
-```
+``` c
 int main(int argc, char const *argv[]) {
     struct sockaddr_in address;
     int sock = 0, valread;
@@ -367,7 +367,7 @@ int main(int argc, char const *argv[]) {
     }
 ```
 Perbedaan client penjual dan pembeli terletak di sini
-```
+``` c
     while(1){
 	    fgets(permintaan, 100, stdin);				//client memasukan permintaan
 	    if(strcmp(permintaan,tambah)){				//jika yang diminta adalah "tambah"
@@ -394,12 +394,12 @@ void *mengunzip( void *ptr ); untuk mengekstrak file KompresProses1.zip dan Komp
 Penjelasan dari isi fungsi main:
 
 membuat 4 thread
-```
+``` c
     pthread_t thread1, thread2, thread3, thread4;
 ``` 
 
 String untuk system pada thread
- ```
+ ``` c
     char *simpan1="ps -aux | head -n10 > ~/Documents/FolderProses1/SimpanProses1.txt";
     char *simpan2="ps -aux | head -n10 > ~/Documents/FolderProses2/SimpanProses2.txt";
     char *zip1="zip -j -m ~/Documents/FolderProses1/KompresProses1.zip ~/Documents/FolderProses1/SimpanProses1.txt";
@@ -409,7 +409,7 @@ String untuk system pada thread
 ``` 
 Dalam program ini dibuat 6 thread
 Thread 1 dan 2 membuat file SimpanProses1.txt dan SimpanProses2.txt menggunakan fungsi listing
-```
+``` c
     int  iret1, iret2, iret3, iret4, iret5, iret6;
   
     iret1 = pthread_create( &thread1, NULL, listing, (void*) simpan1); //membuat thr$
@@ -430,7 +430,7 @@ Thread 1 dan 2 membuat file SimpanProses1.txt dan SimpanProses2.txt menggunakan 
     pthread_join( thread2, NULL); 
 ```
 Thread 3 dan 4 menzip file SimpanProses1.txt dan SimpanProses2.txt menggunakan fungsi zipping
-```
+``` c
     iret3 = pthread_create( &thread3, NULL, zipping, (void*) zip1); //membuat thr$
     if(iret3) //jika eror
     {
@@ -451,7 +451,7 @@ Thread 3 dan 4 menzip file SimpanProses1.txt dan SimpanProses2.txt menggunakan f
 }
 ```
 Thread 5 dan 6 mengunzip file KompresProses1.txt dan KompresProses2.txt menggunakan fungsi unzipping
-```
+``` c
 iret5 = pthread_create( &thread5, NULL, mengunzip, (void*) unzip1); //membuat thr$
     if(iret5) //jika eror
     {
@@ -470,7 +470,7 @@ pthread_join( thread5, NULL);
 pthread_join( thread6, NULL);
 ```
 Fungsi listing
-```
+``` c
 void *listing( void *ptr )
 {
     char *message;
@@ -479,7 +479,7 @@ void *listing( void *ptr )
 }
 ```
 Fungsi zipping: setelah memanggil fungsi sys
-```
+``` c
 void *zipping( void *ptr )
 {
     char *zippnya;
@@ -489,7 +489,7 @@ void *zipping( void *ptr )
 }
 ```
 Fungsi mengunzip: thread yang menggunakan fungsi ini menunggu 15 setik sebelum mengekstrak kembali
-```
+``` c
 void *mengunzip( void *ptr )
 {   sleep(15);
     char *unzipnya;
