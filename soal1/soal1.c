@@ -8,7 +8,6 @@ int status;
 typedef struct faktorialz{
 int urut;
 int isi;
-//int hasil;
 }Lala;
 
 
@@ -68,9 +67,5 @@ for (i=1; i<argc; ++i)
 	for (i = 1; i < argc; i++){
 
 	    pthread_join(tid[i], NULL);//loopnya harusnya beda
-	}/*
-for(i=0;i<argc;i++){
-       status=arr[i];
-}
-*/
+	}
 }
