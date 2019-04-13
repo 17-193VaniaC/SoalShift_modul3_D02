@@ -50,6 +50,7 @@ int main()
         exit(EXIT_FAILURE);
     }
 
+
     iret5 = pthread_create( &thread5, NULL, mengunzip, (void*) unzip1); //membuat thr$
     if(iret5) //jika eror
     {
@@ -80,10 +81,10 @@ void *mengunzip( void *ptr )
 {   sleep(15);
     char  *unzipnya;
     unzipnya= (char *) ptr;
-    while(status<3){
+    while(status<3){}
     system(unzipnya);
     printf("---%lu---\n",pthread_self());
-    }
+
 }
 
 void *listing( void *ptr )
@@ -93,7 +94,7 @@ void *listing( void *ptr )
     system(message);
     printf("---%lu---\n",pthread_self());
 status=2;
-//    }
+
 }
 
 void *zipping( void *ptr )
@@ -104,7 +105,7 @@ void *zipping( void *ptr )
     zippnya = (char *) ptr;
     system(zippnya);
     printf("Menunggu 15 detik lagi untuk mengekstrak kembali\n");
-status=3;
+    status=3;
 }
 
 
