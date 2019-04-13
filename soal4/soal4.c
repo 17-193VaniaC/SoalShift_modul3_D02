@@ -6,9 +6,9 @@
 #include <sys/wait.h>
 
 void *listing( void *ptr );
-void *zipping( void *ptr );
+void *zipping(void * ptr );
 void *mengunzip( void *ptr);
-
+int status;
 int main()
 {
     pthread_t thread1, thread2, thread3, thread4, thread5, thread6;
@@ -18,10 +18,10 @@ int main()
     char *zip2="zip -j -m ~/Documents/FolderProses2/KompresProses2.zip ~/Documents/FolderProses2/SimpanProses2.txt";
     char *unzip1="unzip ~/Documents/FolderProses1/KompresProses1.zip -d ~/Documents/FolderProses1/";
     char *unzip2="unzip ~/Documents/FolderProses2/KompresProses2.zip -d ~/Documents/FolderProses2/";
+    status=1;
 
-    
     int  iret1, iret2, iret3, iret4, iret5, iret6;
-  
+
     iret1 = pthread_create( &thread1, NULL, listing, (void*) simpan1); //membuat thr$
     if(iret1) //jika eror
     {
@@ -36,8 +36,8 @@ int main()
         exit(EXIT_FAILURE);
     }
 
-    pthread_join( thread1, NULL);
-    pthread_join( thread2, NULL); 
+  //  pthread_join( thread1, NULL);
+ //   pthread_join( thread2, NULL); 
 
     iret3 = pthread_create( &thread3, NULL, zipping, (void*) zip1); //membuat thr$
     if(iret3) //jika eror
@@ -53,8 +53,8 @@ int main()
         exit(EXIT_FAILURE);
     }
 
-    pthread_join( thread3, NULL);
-    pthread_join( thread4, NULL);
+//    pthread_join( thread3, NULL);
+ //   pthread_join( thread4, NULL);
 
     iret5 = pthread_create( &thread5, NULL, mengunzip, (void*) unzip1); //membuat thr$
     if(iret5) //jika eror
@@ -70,6 +70,10 @@ int main()
         exit(EXIT_FAILURE);
     }
 
+    pthread_join( thread1, NULL);
+    pthread_join( thread2, NULL);
+    pthread_join( thread3, NULL);
+    pthread_join( thread4, NULL);
     pthread_join( thread5, NULL);
     pthread_join( thread6, NULL);
 
@@ -80,24 +84,44 @@ int main()
 
 void *mengunzip( void *ptr )
 {   sleep(15);
-    char *unzipnya;
+    char  *unzipnya;
     unzipnya= (char *) ptr;
-    system(unzipnya);
+    while(status<3){
+//    system("unzip ~/Documents/FolderProses1/KompresProses1.zip -d ~/Documents/FolderProses1/");
+ //   system("unzip ~/Documents/FolderProses2/KompresProses2.zip -d ~/Documents/FolderProses2/");
+   system(unzipnya);
+    printf("---%lu---\n",pthread_self());
+    }
 }
 
 void *listing( void *ptr )
 {
     char *message;
     message = (char *) ptr;
-    system(message);
+//    if(message==1){
+//    system("ps -aux | head -n10 > ~/Documents/FolderProses1/SimpanProses1.txt");
+//    system("ps -aux | head -n10 > ~/Documents/FolderProses2/SimpanProses2.txt");
+   system(message);
+    printf("---%lu---\n",pthread_self());
+status=2;
+//    }
 }
 
 void *zipping( void *ptr )
 { 
     char *zippnya;
+//sleep(1);
+    printf("---%lu---\n",pthread_self());
+    while(status<2){}
     zippnya = (char *) ptr;
-    system(zippnya); 
+//    system("zip -j -m ~/Documents/FolderProses1/KompresProses1.zip ~/Documents/FolderProses1/SimpanProses1.txt");
+//    system("zip -j -m ~/Documents/FolderProses2/KompresProses2.zip ~/Documents/FolderProses2/SimpanProses2.txt");
+system(zippnya);
+
+
+    //system(zippnya); 
     printf("Menunggu 15 detik lagi untuk mengekstrak kembali\n");
+status=3;
 }
 
 
