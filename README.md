@@ -1,57 +1,90 @@
 Pembahasan 
 1. #### Soal1
    Langkah pengerjaan:
-   + Masukkan input ke dalam sebuah array, lalu urutkan mulai dari yang terkecil hingga terbesar.
+   + Buat struktur data yang akan menyimpan urutan input dan nilainya.
 ```c
-	for (i = 1; i < argc; i++)
- 	{
-	    int mbuh = atoi(array[i]);
-	    arr[i] = mbuh;
- 	}
+typedef struct faktorialz{
+int urut;
+int isi;
+}Lala;
 
-	 for (i=1; i<argc; ++i)
-    	 {
-      	     for (j= i+1; j<argc; ++j)
-      	     {
-             	  if (arr[i] > arr[j])
-              	 {
-               	      int a =  arr[i];
-             	      arr[i] = arr[j];
-             	      arr[j] = a;
-             	  }
-              }
-     	  }
 ```
 
-   + Buat thread sebanyak input.
+   + Buat fungsi main, masukkan input ke dalam sebuah array struktur data, urutkan dan masukkan urutannya juga.
    ```c
-	int cr;
-  	pthread_t tid;
+    int j,i,a, arr[100];
+    int *de;
+    Lala huha[argc];
 
-    	for (i = 1; i < argc; i++)
-	{
-	    cr = pthread_create(&(tid), NULL, &faktorial, (void *) (intptr_t) arr[i]);
-	    if(cr!=0) printf("\nPembuatan thread error\n");
-	    pthread_join(tid, NULL);
-	} 
+    for (i = 1; i < argc; i++)
+    {
+        int mbuh = atoi(array[i]);
+        huha[i].isi = mbuh;
+    }
+
+    for (i=1; i<argc; ++i)
+    {
+        for (j= i+1; j<argc; ++j)
+        {
+            if (huha[i].isi > huha[j].isi)
+            {
+                int a =  huha[i].isi;
+                huha[i].isi = huha[j].isi;
+                huha[j].isi = a;
+            }
+        }
+    }
+
+    for (i = 1; i < argc; i++)
+    {
+        huha[i].urut = i;
+    }
+ 
 ```
-   + Jalankan fungsi dalam thread
+   + Buat status dan thread.
     
 ```c
-	void *faktorial(void* nilai)
-	{   
-    	    int fak_loop = (int) (intptr_t)nilai;
-            int hasil = (int) (intptr_t)nilai;
-            int j;
+    status=1;
+    int cr;
+    pthread_t tid[argc];
+    for (i = 1; i < argc; i++)
+    {
+        cr=pthread_create(&(tid[i]), NULL, &faktorial, (void *) &huha[i]);
+    }
 
-    	    for (j=1; j<fak_loop; j++)
-    	    {
-        	hasil = hasil * j;
-    	    }
-
-    	    printf("%d! = %d\n", fak_loop, hasil);
-	}
 ```
+
+   + Join semua thread
+    
+```c
+for (i = 1; i < argc; i++)
+    {
+
+        pthread_join(tid[i], NULL);//loopnya harusnya beda
+    }
+
+```
+
+   + Buat fungsi faktorial dan tampilkan nilainya.
+    
+```c
+void *faktorial(void* nilai)
+{
+    Lala * fak_loop = (Lala* )nilai;
+    int hasil = (int) (intptr_t)nilai;
+    int j;
+    while(status<fak_loop->urut) {}
+    for (j=1; j<fak_loop->isi; j++)
+    {
+        hasil = hasil * j;
+    }
+    printf("thread id:\t%lu\n",pthread_self());
+    printf("%d! = %d\n", fak_loop->isi, hasil);
+    status++;
+}
+
+```
+       
        
 2. #### Soal2
 
