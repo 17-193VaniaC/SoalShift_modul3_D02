@@ -92,7 +92,7 @@ Untuk Server Penjual:
 
 
 Variabel yang digunakan adalah sebagai berikut
- ```
+ ``` c
  //thread
 	pthread_t thread1, thread2;
 	int iret1, iret2;
@@ -101,7 +101,7 @@ Variabel yang digunakan adalah sebagai berikut
    int *value;
 ```
 agar bisa melakukan shared memory
-```
+``` c
         int shmid = shmget(key, sizeof(int), IPC_CREAT | 0666);
         value = shmat(shmid, NULL, 0);
    
@@ -109,7 +109,7 @@ agar bisa melakukan shared memory
         *value = 10;
   ```      
   membuat thread ke-1 untuk nerima pesan dari client
-  ```
+  ``` c
 	iret1 = pthread_create( &thread1, NULL, get_message, (void *) value);
 	if(iret1)
         {
@@ -127,16 +127,15 @@ agar bisa melakukan shared memory
                 exit(EXIT_FAILURE);
         }
 ```
-
   join thread agar dijalankan hingga selesai
-```
+``` c
 	pthread_join( thread1, NULL);
 	pthread_join( thread2, NULL); 
-
+```
 Membuat fungsi get_message yang digunakan untuk mendapatkan pesan dari client.
 
 Pertama-tama, membuat socket untuk server penjual
-```
+``` c
 void *get_message( void *ptr){
 
         char *tambah="tambah";
@@ -174,15 +173,16 @@ void *get_message( void *ptr){
                 perror("accept");
                 exit(EXIT_FAILURE);
         }
-    ```    
+  
+  ``` 
   membuat pointer bernama tambahin yang menunjuk ke variable dalam shared memory
-  ```
+  ``` c
 	int *tambahin;
 	tambahin = (int *) ptr;
   ```
   
   Thread ini akan terus membaca pesan yang dikirimkan oleh client yang terhubung dengan server penjual
-  ```
+  ``` c
 	while(1){
 		valread = read( new_socket , buffer, 1024); //membaca pesan dari client
 		if(strcmp(buffer,tambah)){
@@ -190,7 +190,7 @@ void *get_message( void *ptr){
 		}
   ```
   Membuat fungsi print_stock yang digunakan untuk menampilkan banyak stok yang ada
- ```
+ ``` c
   void *print_stock( void *banyak){
  
   int *stok;                  //membuat pointer yang menunjuk ke alamat 'value' yang ada di shared memory
@@ -202,13 +202,15 @@ void *get_message( void *ptr){
 ```
 
 Untuk Server Pembeli:
-
+``` c
   pthread_t thread1, thread2;
 	int iret1, iret2;
 
 	//shared mem
         key_t key = 1234;
         int *value;
+	
+``` 
 Agar bisa melakukan shared memory:
 ``` c
         int shmid = shmget(key, sizeof(int), IPC_CREAT | 0666);
@@ -391,14 +393,14 @@ void *listing( void *ptr ); = untuk membuat file berisi list dari proses (Simpan
 void *zipping( void *ptr ); = untuk men-zip file SimpanProses1.txt dan SimpanProses2.txt 
 void *mengunzip( void *ptr ); untuk mengekstrak file KompresProses1.zip dan KompresProses2.zip Penjelasan dari isi fungsi main:
 Selain itu, dibuat juga variabel status sebagai mutual exclusion.
-```
+``` c
 void *listing( void *ptr );
 void *zipping(void * ptr );
 void *mengunzip( void *ptr);
 int status;
 ```
 Dalam proses ini dibuat 6 thread dengan 3 fungsi yang berbeda
-```
+``` c
 pthread_t thread1, thread2, thread3, thread4, thread5, thread6;
 
 char *simpan1="ps -aux | head -n10 > ~/Documents/FolderProses1/SimpanProses1.txt";
@@ -454,7 +456,7 @@ exit(EXIT_FAILURE);
 }
 ```
 Kemudian thread dijoinkan.
-```
+``` c
 pthread_join( thread1, NULL);
 pthread_join( thread2, NULL);
 pthread_join( thread3, NULL);
@@ -464,7 +466,7 @@ pthread_join( thread6, NULL);
 ```
 
 Pada  fungsi uzipping, agar thread menunggu untuk giliran menguzip file, maka fungsi ini menunggu status bernilai 3 (artinya KompresProses.zip sudah dibuat). Selain itu dalam fungsi ini menunggu 15 detik menggunkaan fungsi sleep.
-```
+``` c
 void *mengunzip( void *ptr )
 
 { sleep(15);
@@ -477,7 +479,7 @@ printf(“---%lu---\n”,pthread_self());
 }
 ```
 Pada Fungsi listing ini, tidak bergantung pada status. Namun, dalam fungsi ini status diubah menjadi 2 ketika file SimpanProses.txt sudah dibuat.
-```
+``` c
 void *listing( void *ptr )
 {
 char *message;
@@ -489,7 +491,7 @@ status=2;
 }
 ```
 Pada  fungsi zipping, agar thread menunggu untuk giliran men-zip file, maka fungsi ini menunggu status bernilai 2 (artinya SimpanProses.txt sudah dibuat)
-```
+``` c
 void *zipping( void *ptr )
 { 
 char *zippnya;
